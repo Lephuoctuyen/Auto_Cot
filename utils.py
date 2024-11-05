@@ -105,7 +105,7 @@ def decoder_for_gpt(args, input, max_length):
             stop=None
         )
 
-    return response["choices"][0]["text"]
+    return response.choices[0].message['content']
 
 class Decoder():
     def __init__(self):
