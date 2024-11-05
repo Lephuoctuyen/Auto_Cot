@@ -78,6 +78,7 @@ def decoder_for_gpt(args, input, max_length):
         engine = 'gpt-3.5-turbo'
     else:
         raise ValueError("model is not properly defined ...")
+    prompt = input
     messages = [
         {
             "role": "user",
@@ -89,7 +90,6 @@ def decoder_for_gpt(args, input, max_length):
         response = client.Completion.create(
           model=engine,
           messages=messages,
-          prompt=input,
           max_tokens=max_length,
           temperature=args.temperature,
           top_p=1,
@@ -102,7 +102,6 @@ def decoder_for_gpt(args, input, max_length):
         response = client.chat.completions.create(
             model=engine,
             messages=messages,
-            prompt=input,
             max_tokens=max_length,
             temperature=args.temperature,
             top_p=1,
