@@ -75,13 +75,14 @@ def decoder_for_gpt(args, input, max_length):
     elif args.model == 'gpt-4o-mini':
         engine = 'gpt-4o-mini'
     elif args.model == 'gpt-3.5-turbo':
-        engine = ''
+        engine = 'gpt-3.5-turbo'
     else:
         raise ValueError("model is not properly defined ...")
-        
+    client = Client()   
     if ("few_shot" in args.method or "auto" in args.method)  and engine == "code-davinci-002":
-        response = Client.Completion.create(
-          engine=engine,
+        response = client.Completion.create(
+          model=engine,
+          messages=[],
           prompt=input,
           max_tokens=max_length,
           temperature=args.temperature,
@@ -92,9 +93,9 @@ def decoder_for_gpt(args, input, max_length):
         )
     else:
 
-        client = Client()
         response = client.chat.completions.create(
-            engine=engine,
+            model=engine,
+            messages=[],
             prompt=input,
             max_tokens=max_length,
             temperature=args.temperature,
