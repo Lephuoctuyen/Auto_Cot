@@ -78,11 +78,17 @@ def decoder_for_gpt(args, input, max_length):
         engine = 'gpt-3.5-turbo'
     else:
         raise ValueError("model is not properly defined ...")
+    messages = [
+        {
+            "role": "user",
+            "content": prompt
+        }
+    ]
     client = Client()   
     if ("few_shot" in args.method or "auto" in args.method)  and engine == "code-davinci-002":
         response = client.Completion.create(
           model=engine,
-          messages=[],
+          messages=messages,
           prompt=input,
           max_tokens=max_length,
           temperature=args.temperature,
@@ -95,7 +101,7 @@ def decoder_for_gpt(args, input, max_length):
 
         response = client.chat.completions.create(
             model=engine,
-            messages=[],
+            messages=messages,
             prompt=input,
             max_tokens=max_length,
             temperature=args.temperature,
